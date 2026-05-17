@@ -33,7 +33,7 @@ public class CitaController {
             try {
                 if(view.txtPacienteId.getText().isEmpty()){
 
-                    alerta("Paciente ID requerido");
+                    alerta("Paciente Id requerido");
                     return;
                 }
 
@@ -41,7 +41,8 @@ public class CitaController {
                         new Cita(
                                 Integer.parseInt(view.txtPacienteId.getText()),
                                 view.txtFecha.getText(),
-                                view.txtMotivo.getText()
+                                view.txtMotivo.getText(),
+                                view.txtDoctor.getText()
                         );
 
                 replication.replicarCita(cita);

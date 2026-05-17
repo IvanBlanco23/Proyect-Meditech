@@ -1,6 +1,7 @@
 package com.meditech.database;
 
 import com.meditech.model.Cita;
+import com.meditech.model.EstadoCita;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,6 +36,8 @@ public class CitaDAO {
 
                 c.setMotivo(rs.getString("motivo"));
 
+                c.setEstado(EstadoCita.valueOf(rs.getString("estado")));
+
                 lista.add(c);
             }
         }catch (Exception e){
@@ -67,5 +70,48 @@ public class CitaDAO {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public List<Cita> listarCitasPorDoctor(String doctor){
+
+        List<Cita> lista=new ArrayList<>();
+
+        String sql= """
+                SELECT * FROM Cita
+                WHERE doctor=? ;
+                """;
+
+        try (Connection conn =
+                     SQLServerConnection
+                             .connect();
+
+             PreparedStatement stmt =
+                     conn.prepareStatement(sql)
+        ){
+
+            stmt.setString(1, doctor);
+
+            ResultSet rs=stmt.executeQuery();
+
+            while (rs.next()){
+                Cita c=new Cita();
+
+                c.setId(rs.getInt("id"));
+
+                c.setPacienteId(rs.getInt("paciente_id"));
+
+                c.setFecha(rs.getString("fecha"));
+
+                c.setMotivo(rs.getString("motivo"));
+
+                c.setEstado(EstadoCita.valueOf(rs.getString("estado")));
+
+                lista.add(c);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return lista;
     }
 }

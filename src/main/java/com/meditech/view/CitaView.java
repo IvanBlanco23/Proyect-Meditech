@@ -15,6 +15,8 @@ public class CitaView {
 
     public TextField txtMotivo = new TextField();
 
+    public TextField txtDoctor = new TextField();
+
     public Button btnGuardar = new Button("Guardar Cita");
 
     public VBox crearVista(){
@@ -30,6 +32,9 @@ public class CitaView {
 
         TableColumn <Cita,String> colMotivo = new TableColumn<>("Motivo");
         colMotivo.setCellValueFactory(new  javafx.scene.control.cell.PropertyValueFactory<>("motivo"));
+
+        TableColumn <Cita,String> colDoctor = new TableColumn<>("Docotr");
+        colDoctor.setCellValueFactory(new  javafx.scene.control.cell.PropertyValueFactory<>("doctor"));
 
         table.getColumns().addAll(
                 colId,
@@ -48,6 +53,9 @@ public class CitaView {
 
                 new Label("Motivo"),
                 txtMotivo,
+
+                new Label("Doctor"),
+                txtDoctor,
 
                 btnGuardar,
 

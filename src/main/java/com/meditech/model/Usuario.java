@@ -3,7 +3,7 @@ package com.meditech.model;
 public class Usuario {
 
     private int idUsuario;
-    private String nome;
+    private String nombre;
     private String username;
     private String password;
     private String rol;
@@ -16,12 +16,12 @@ public class Usuario {
         this.idUsuario = idUsuario;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNombre(String nome) {
+        this.nombre = nome;
     }
 
     public String getUsername() {

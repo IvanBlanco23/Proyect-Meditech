@@ -2,6 +2,8 @@ package com.meditech.controller;
 
 import com.meditech.MainApp;
 import com.meditech.view.LoginView;
+import com.meditech.database.UsuarioDAO;
+import com.meditech.model.Usuario;
 
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
@@ -36,19 +38,22 @@ public class LoginController {
                     view.txtPassword
                             .getText();
 
-            if (
+//            Para contraseña con login en base
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-                    usuario.equals("admin")
+            Usuario usuarioLogeado = usuarioDAO.login(usuario, password);
 
-                            &&
+//            if (
+//                usuario.equals("admin")
+//                            &&
+//                password.equals("1234")
+//            ){
+//                Para contraseña con login en base
+                if ( usuarioLogeado != null) {
 
-                            password.equals("1234")
+                MainApp.mostrarSistema(stage, usuarioLogeado);
 
-            ) {
-
-                MainApp.mostrarSistema(
-                        stage
-                );
+//                MainApp.mostrarSistema(stage);
 
             } else {
 

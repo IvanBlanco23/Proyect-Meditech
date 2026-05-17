@@ -6,13 +6,17 @@ public class Cita {
     private int pacienteId;
     private String fecha;
     private String motivo;
+    private String doctor;
+    private int expedienteId;
+    private EstadoCita estado;
 
     public Cita() {}
 
-    public Cita(int pacienteId, String fecha, String motivo) {
+    public Cita(int pacienteId, String fecha, String motivo, String doctor) {
         this.pacienteId = pacienteId;
         this.fecha = fecha;
         this.motivo = motivo;
+        this.doctor = doctor;
     }
 
     public int getId() {
@@ -45,5 +49,29 @@ public class Cita {
 
     public void setMotivo(String motivo) {
         this.motivo = motivo;
+    }
+
+    public String getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(String doctor) {
+        this.doctor = doctor;
+    }
+
+    public int getExpedienteId() {
+        return expedienteId;
+    }
+
+    public void setExpedienteId(int expedienteId) {
+        this.expedienteId = expedienteId;
+    }
+
+    public EstadoCita getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoCita estado) {
+        this.estado = estado;
     }
 }

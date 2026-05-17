@@ -2,6 +2,7 @@ package com.meditech;
 
 import com.meditech.view.*;
 import com.meditech.controller.* ;
+import com.meditech.model.Usuario;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -49,8 +50,11 @@ public class MainApp extends Application {
 
     // =====================
 
-    public static void mostrarSistema(
-            Stage stage
+    public static <usuario> void mostrarSistema(
+            Stage stage,
+
+//          Para contraseña con loggin en base
+            Usuario usuario
     ) {
 
         DashboardView dashboard =
@@ -70,6 +74,24 @@ public class MainApp extends Application {
                 citaView
         );
 
+//        Retirar para el registro con user con database
+//        ConsultaView consultaView=
+//                new ConsultaView();
+//
+//        new ConsultaController(
+//                consultaView,
+//                usuario
+//        );
+
+//        DoctorView doctorView=
+//                new DoctorView();
+
+//        new DoctorController(
+//                doctorView,
+//                consultaView
+//        );
+//
+
         Tab tabDashboard =
                 new Tab(
                         "Inicio",
@@ -88,15 +110,71 @@ public class MainApp extends Application {
                         citaView.crearVista()
                 );
 
+//        retirar en caso de registro con user de Database
+//        Tab tabConsulta = new Tab(
+//                "Consulta",
+//                consultaView.crearVista()
+//        );
+
+
         TabPane tabPane =
                 new TabPane(
+//
+//                        tabDashboard,
+//
+//                        tabPacientes,
+//
+//                        tabCitas,
+//
+//                        tabConsulta
 
-                        tabDashboard,
-
-                        tabPacientes,
-
-                        tabCitas
                 );
+
+        String rol = usuario.getRol();
+
+        if (rol.equals("ADMIN")){
+
+            tabPane.getTabs().addAll(
+                    tabDashboard,
+                    tabPacientes,
+                    tabCitas);
+
+        } else if (rol.equals("RECEPCION")) {
+
+            tabPane.getTabs().addAll(
+                    tabPacientes,
+                    tabCitas);
+
+        } else if (rol.equals("DOCTOR")) {
+
+        DoctorView doctorView=new DoctorView();
+        HistorialView historialView=new HistorialView();
+
+        ConsultaView consultaView=
+                new ConsultaView();
+
+        new ConsultaController(
+                consultaView,
+                usuario
+        );
+
+        new DoctorController(
+                doctorView,
+                consultaView,
+                usuario.getUsername(),
+                historialView
+        );
+
+        Tab tabDoctor = new Tab(
+                "Mis citas",
+                doctorView.crearVista()
+        );
+
+        Tab tabConsulta = new Tab("Consulta", consultaView.crearVista());
+
+        tabPane.getTabs().addAll(tabDoctor,tabConsulta);
+
+        }
 
         Scene scene =
                 new Scene(

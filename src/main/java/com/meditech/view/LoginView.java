@@ -11,7 +11,7 @@ public class LoginView {
 
     public TextField txtUsuario= new TextField();
     public PasswordField txtPassword=new PasswordField();
-    public Button btnLogin= new Button("Iniciar Sesión");
+    public Button btnLogin= new Button("Iniciar Sesion");
 
     public VBox crearVista(){
 
@@ -26,7 +26,7 @@ public class LoginView {
 
         txtUsuario.setPromptText("Usuario");
 
-        txtPassword.setPromptText("Senha");
+        txtPassword.setPromptText("COntraseña");
 
         VBox root = new VBox(
                 15,
