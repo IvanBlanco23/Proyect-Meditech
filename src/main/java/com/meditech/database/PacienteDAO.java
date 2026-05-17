@@ -40,7 +40,7 @@ public class PacienteDAO {
         }
     }
 
-    public List<Paciente> listarPaciente(){
+    public List<Paciente> listarPacientes(){
 
         List<Paciente> lista = new ArrayList<>();
 
@@ -61,11 +61,36 @@ public class PacienteDAO {
                 lista.add(paciente);
             }
         }catch (Exception e){
-            System.out.printf("Error al listar Paciente");
+            System.out.println("Error al listar Paciente");
             e.printStackTrace();
         }
         return lista;
     }
 
+    public int contarPacientes(){
 
+        String sql = "SELECT COUNT(*) FROM Paciente";
+
+        try (
+                Connection conn =
+                        SQLServerConnection.connect();
+
+                PreparedStatement stmt =
+                        conn.prepareStatement(sql);
+
+                ResultSet rs =
+                        stmt.executeQuery()
+        ){
+
+            if(rs.next()){
+
+                return rs.getInt(1);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
 }

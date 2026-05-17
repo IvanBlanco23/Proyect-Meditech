@@ -29,12 +29,12 @@ public class SQLServerConnection {
                     PASSWORD
             );
 
-            System.out.println("Connected to database successfully");
+            System.out.println("Connected to SQL Server successfully");
             return conn;
 
         }catch (Exception e){
 
-            System.out.println("Connection Failed! Check output console");
+            System.out.println("Error connecting to the SQL Server database");
             e.printStackTrace();
 
             return null;

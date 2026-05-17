@@ -1,0 +1,60 @@
+package com.meditech.view;
+
+import com.meditech.model.Cita;
+
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+
+public class CitaView {
+
+    public TableView<Cita> table = new TableView<>();
+
+    public TextField txtPacienteId = new TextField();
+
+    public TextField txtFecha = new TextField();
+
+    public TextField txtMotivo = new TextField();
+
+    public Button btnGuardar = new Button("Guardar Cita");
+
+    public VBox crearVista(){
+
+        TableColumn <Cita,String> colId = new TableColumn<>("ID");
+        colId.setCellValueFactory(new javafx.scene.control.cell.PropertyValueFactory<>("id"));
+
+        TableColumn <Cita, String> colPacienteId = new TableColumn<>("Paciente");
+        colPacienteId.setCellValueFactory(new  javafx.scene.control.cell.PropertyValueFactory<>("pacienteId"));
+
+        TableColumn <Cita,String> colFecha = new TableColumn<>("Fecha");
+        colFecha.setCellValueFactory(new  javafx.scene.control.cell.PropertyValueFactory<>("fecha"));
+
+        TableColumn <Cita,String> colMotivo = new TableColumn<>("Motivo");
+        colMotivo.setCellValueFactory(new  javafx.scene.control.cell.PropertyValueFactory<>("motivo"));
+
+        table.getColumns().addAll(
+                colId,
+                colPacienteId,
+                colFecha,
+                colMotivo);
+
+        VBox root = new VBox(
+                10,
+
+                new Label("Paceinte Id"),
+                txtPacienteId,
+
+                new Label("Fecha"),
+                txtFecha,
+
+                new Label("Motivo"),
+                txtMotivo,
+
+                btnGuardar,
+
+                table
+        );
+
+        return root;
+
+    };
+}
