@@ -10,14 +10,13 @@ public class CitaView {
     public TableView<Cita> table = new TableView<>();
 
     public TextField txtPacienteId = new TextField();
-
     public TextField txtFecha = new TextField();
-
     public TextField txtMotivo = new TextField();
-
     public TextField txtDoctor = new TextField();
 
     public Button btnGuardar = new Button("Guardar Cita");
+    public Button btnReagendar = new Button("Reagendar Cita");
+    public Button btnAusente = new Button("Ausentar cita");
 
     public VBox crearVista(){
 
@@ -58,6 +57,8 @@ public class CitaView {
                 txtDoctor,
 
                 btnGuardar,
+                btnReagendar,
+                btnAusente,
 
                 table
         );

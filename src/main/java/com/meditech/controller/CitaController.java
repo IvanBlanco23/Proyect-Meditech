@@ -2,18 +2,24 @@ package com.meditech.controller;
 
 import com.meditech.database.CitaDAO;
 import com.meditech.model.Cita;
+import com.meditech.model.EstadoCita;
 import com.meditech.service.ReplicationService;
 import com.meditech.view.CitaView;
+import com.meditech.controller.NotificacionController;
 
 import javafx.scene.control.Alert;
 
 public class CitaController {
+
+    private Cita cita;
 
     private final CitaView view;
 
     private final CitaDAO dao=new CitaDAO();
 
     private final ReplicationService replication =  new ReplicationService();
+
+    private NotificacionController notificacionController;
 
     public CitaController(CitaView view){
         this.view=view;
@@ -45,6 +51,10 @@ public class CitaController {
                                 view.txtDoctor.getText()
                         );
 
+                notificacionController.agregar("Consulta registrada");
+
+                cita.setEstado(EstadoCita.PENDIENTE);
+
                 replication.replicarCita(cita);
 
                 cargarTabla();
@@ -55,6 +65,14 @@ public class CitaController {
                 alerta("Error al cargar cita");
             }
         });
+
+        view.btnReagendar.setOnAction(e -> {
+
+            dao.marcarAusente(cita.getId());
+            limpiar();
+            info("Cita reagendada correctamente");
+        });
+
     }
 
     private void limpiar(){

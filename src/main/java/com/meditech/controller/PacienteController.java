@@ -5,9 +5,12 @@ import com.meditech.model.Paciente;
 import com.meditech.service.ReplicationService;
 import com.meditech.view.PacienteView;
 import com.meditech.util.PDFExporter;
+import com.meditech.service.ExcelService;
+import com.meditech.controller.NotificacionController;
 
 import javafx.collections.*;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 
 import java.util.Locale;
 
@@ -17,6 +20,8 @@ public class PacienteController {
 
     private final PacienteDAO  pacienteDAO = new PacienteDAO();
     private final ReplicationService replication = new ReplicationService();
+    private final ExcelService excel = new ExcelService();
+    private NotificacionController notificacionController;
 
     private Paciente pacienteSeleccionado;
 
@@ -26,6 +31,7 @@ public class PacienteController {
         cargarTabla();
 
         eventos();
+
     }
 
     private ObservableList<Paciente> pacienteObservable;
@@ -57,10 +63,10 @@ public class PacienteController {
 
         view.table.getItems().clear();
 
-        view.table.getItems().addAll(
-                pacienteDAO.listarPacientes()
-        );
     }
+
+    ObservableList<Paciente> pacientes = FXCollections.observableArrayList();
+    FilteredList<Paciente> fil=new FilteredList<>(pacientes, p -> true);
 
     private void eventos(){
 
@@ -82,6 +88,11 @@ public class PacienteController {
                         view.txtNombre.getText(),
                         Integer.parseInt(view.txtEdad.getText()),
                         view.txtTelefono.getText()
+                );
+
+                notificacionController.agregar(
+                        "Nuevo paciente registrado" +
+                               view.txtNombre.getText()
                 );
 
                 replication.replicarPaciente(paciente);
@@ -124,6 +135,37 @@ public class PacienteController {
             );
 
             mostrarAlerta("PDF exportado correctamente");
+        });
+
+//        =======
+
+        view.txtBuscar.textProperty().addListener((obs, oldValue, newValue) -> {
+            fil.setPredicate(paciente -> {
+
+                if(newValue == null || newValue.isEmpty()){
+
+                    return true;
+
+                }
+
+                String texto = newValue.toLowerCase();
+
+                return pacienteSeleccionado.getNombre().toLowerCase().contains(texto);
+
+            });
+        });
+
+        SortedList<Paciente> sortedData = new SortedList<>(fil);
+
+        sortedData.comparatorProperty().bind(view.table.comparatorProperty());
+
+        view.table.setItems(sortedData);
+
+//        ==========
+
+        view.btnExcel.setOnAction(event -> {
+            excel.exportarPacientes(pacienteDAO.listarPacientes());
+            mostrarInfo("Excel exportado correctamente");
         });
     }
 

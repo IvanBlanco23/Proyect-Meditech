@@ -9,6 +9,7 @@ public class Consulta {
     private String tratamiento;
     private String observaciones;
     private String fecha;
+    private String medicamentos;
 
     public Consulta() {
     }
@@ -76,5 +77,13 @@ public class Consulta {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public String getMedicamentos() {
+        return medicamentos;
+    }
+
+    public void setMedicamentos(String medicamentos) {
+        this.medicamentos = medicamentos;
     }
 }

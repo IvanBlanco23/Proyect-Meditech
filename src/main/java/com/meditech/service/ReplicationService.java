@@ -242,6 +242,10 @@ public class ReplicationService {
 
             stmt.setString(3, cita.getMotivo());
 
+            stmt.setString(4, cita.getDoctor());
+
+            stmt.setString(5, cita.getEstado().name());
+
             stmt.execute();
 
             System.out.println("Cita guardada SQL Server");
@@ -340,6 +344,10 @@ public class ReplicationService {
             stmt.setString(2, cita.getFecha());
 
             stmt.setString(3, cita.getMotivo());
+
+            stmt.setString(4, cita.getDoctor());
+
+            stmt.setString(5, cita.getEstado().name());
 
             stmt.execute();
 

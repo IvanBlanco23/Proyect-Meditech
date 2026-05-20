@@ -5,6 +5,7 @@ import com.meditech.database.UsuarioDAO;
 import com.meditech.model.Consulta;
 import com.meditech.model.Usuario;
 import com.meditech.view.ConsultaView;
+import com.meditech.service.RecetaPDFService;
 
 import javafx.scene.control.Alert;
 
@@ -13,6 +14,7 @@ public class ConsultaController {
     private final ConsultaView view;
     private final Usuario doctor;
     private final ConsultaDAO dao= new ConsultaDAO();
+    private final RecetaPDFService pdfService= new RecetaPDFService();
 
 //    Mostrar para el registro: User de Database
     public ConsultaController(ConsultaView view, Usuario doctor) {
@@ -40,6 +42,8 @@ public class ConsultaController {
                         view.dpFecha.getValue().toString()
                 );
 
+                consulta.setMedicamentos(view.txtMedicamentos.getText());
+
                 dao.guardar(consulta);
 
                 mostrarInfo("Consulta guardada");
@@ -48,6 +52,28 @@ public class ConsultaController {
                 mostrarError("Error al guardar consulta");
 
                 ex.printStackTrace();
+            }
+        });
+
+        view.btnreceta.setOnAction(e ->{
+
+            try {
+                Consulta consulta = new Consulta();
+
+                consulta.setFecha(view.dpFecha.getValue().toString());
+
+                consulta.setDiagnostico(view.txtDiagnostico.getText());
+
+                consulta.setTratamiento(view.txtTratamiento.getText());
+
+                consulta.setMedicamentos(view.txtMedicamentos.getText());
+
+                pdfService.generadorPDF(consulta, "Paciente Demo", doctor.getNombre());
+
+                mostrarInfo("receta generada");
+
+            }catch (Exception ex){
+                mostrarError("Error al generar receta");
             }
         });
     }

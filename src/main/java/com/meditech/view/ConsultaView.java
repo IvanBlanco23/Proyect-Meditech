@@ -12,6 +12,8 @@ public class ConsultaView {
     public TextArea txtObservaciones= new TextArea();
     public DatePicker dpFecha = new DatePicker();
     public Button btnGuardar= new Button("Guardar consulta");
+    public Button btnreceta= new Button("Generar receta PDF");
+    public TextArea txtMedicamentos= new TextArea();
 
     public VBox crearVista(){
 
@@ -34,9 +36,13 @@ public class ConsultaView {
                 new Label("Observaciones"),
                 txtObservaciones,
 
+                new Label("Medicamentos"),
+                txtMedicamentos,
+
                 new  Button("Fecha"),
                 dpFecha,
-                btnGuardar
+                btnGuardar,
+                btnreceta
         );
         return root;
     };

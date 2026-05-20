@@ -93,4 +93,59 @@ public class PacienteDAO {
 
         return 0;
     }
+
+    public void actualizarPaciente(Paciente paciente){
+
+        String sql= """
+                UPDATE Paciente
+                SET nombre = ?, edad = ?, telefono = ?
+                WHERE id = ?
+                """;
+
+        try (Connection conn= SQLServerConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setString(1,paciente.getNombre());
+            stmt.setInt(2, paciente.getEdad());
+            stmt.setString(3, paciente.getTelefono());
+
+            stmt.executeUpdate();
+
+            System.out.println("Paciente actualizado con éxito!");
+
+        }catch (Exception e){
+
+            LoggerUtil.logError(
+                    e.getMessage()
+            );
+
+            e.printStackTrace();
+        }
+    }
+
+    public void eliminar(int id){
+
+        String sql= """
+                DELETE FROM Paciente
+                WHERE id=?
+        """;
+
+        try (Connection conn= SQLServerConnection.connect();
+             PreparedStatement stmt = conn.prepareStatement(sql)){
+
+            stmt.setInt(1, id);
+
+            stmt.executeUpdate();
+
+            System.out.println("Paciente eliminado con éxito!");
+
+        }catch (Exception e){
+
+            LoggerUtil.logError(
+                    e.getMessage()
+            );
+
+            e.printStackTrace();
+        }
+    }
 }

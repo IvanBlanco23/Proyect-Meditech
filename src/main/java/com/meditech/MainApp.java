@@ -35,7 +35,7 @@ public class MainApp extends Application {
                 getClass()
 
                         .getResource(
-                                "/css/style.css"
+                                "/css/dark-theme.css"
                         )
 
                         .toExternalForm()
@@ -60,6 +60,10 @@ public class MainApp extends Application {
         DashboardView dashboard =
                 new DashboardView();
 
+        new DashboardController(
+                dashboard
+        );
+
         PacienteView pacienteView =
                 new PacienteView();
 
@@ -74,7 +78,14 @@ public class MainApp extends Application {
                 citaView
         );
 
-//        Retirar para el registro con user con database
+        NotificacionView notificacionView=
+                new NotificacionView();
+
+        new NotificacionController(
+                notificacionView
+        );
+
+//        si está en gris, es registro con user con database
 //        ConsultaView consultaView=
 //                new ConsultaView();
 //
@@ -94,7 +105,7 @@ public class MainApp extends Application {
 
         Tab tabDashboard =
                 new Tab(
-                        "Inicio",
+                        "Dashboard",
                         dashboard.crearVista()
                 );
 
@@ -110,7 +121,14 @@ public class MainApp extends Application {
                         citaView.crearVista()
                 );
 
-//        retirar en caso de registro con user de Database
+        Tab tabNotificaciones=
+                new Tab(
+                        "Notificaciones",
+
+                        notificacionView.crearVista()
+                );
+
+//        si esta en gris, es registro con user de Database
 //        Tab tabConsulta = new Tab(
 //                "Consulta",
 //                consultaView.crearVista()
@@ -174,6 +192,8 @@ public class MainApp extends Application {
 
         tabPane.getTabs().addAll(tabDoctor,tabConsulta);
 
+        tabPane.getTabs().add(tabNotificaciones);
+
         }
 
         Scene scene =
@@ -188,7 +208,7 @@ public class MainApp extends Application {
                 MainApp.class
 
                         .getResource(
-                                "/css/style.css"
+                                "/css/dark-theme.css"
                         )
 
                         .toExternalForm()

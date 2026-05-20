@@ -6,6 +6,7 @@ import com.meditech.model.Consulta;
 import com.meditech.view.DoctorView;
 import com.meditech.view.ConsultaView;
 import com.meditech.view.HistorialView;
+import com.meditech.service.NotificacionService;
 
 public class DoctorController {
 
@@ -14,6 +15,7 @@ public class DoctorController {
     private final HistorialController historialController;
     private final CitaDAO dao=new CitaDAO();
     private final ConsultaView consultaView;
+    private final NotificacionService notificacionService=new NotificacionService();
 
     public DoctorController(DoctorView view, ConsultaView consultaView, String doctor, HistorialView historialView) {
         this.view = view;
@@ -21,6 +23,7 @@ public class DoctorController {
         this.historialController= new HistorialController(historialView);
         this.consultaView = consultaView;
         cargarCitas();
+        mostrarCitaHoy();
     }
 
     private void cargarCitas(){
@@ -41,9 +44,27 @@ public class DoctorController {
                 consultaView.txtExpedienteId.setText(
                         String.valueOf(citaSeleccionada.getExpedienteId())
                 );
-            }
 
-            historialController.cargarHistorial(citaSeleccionada.getExpedienteId());
+                historialController.cargarHistorial(
+                        citaSeleccionada.getExpedienteId()
+                );
+
+            }
         });
     }
+
+    private void mostrarCitaHoy(){
+
+        int total= dao.contarCitasHoy(doctor);
+
+        if(total>0){
+
+            notificacionService.mostrarInfo(
+                    "Tienes" +
+                            total +
+                            " citas pendientes hoy"
+            );
+        }
+    }
+
 }

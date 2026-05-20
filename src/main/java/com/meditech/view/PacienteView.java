@@ -5,6 +5,7 @@ import com.meditech.model.Paciente;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.TextField;
 
 public class PacienteView {
 
@@ -19,8 +20,11 @@ public class PacienteView {
     public Button btnActualizar = new Button("Actualizar");
     public Button btnEliminar = new Button("Eliminar");
     public Button btnPDF= new Button("Exportar PDF");
+    public Button btnExcel = new Button("Exportar Excel");
 
     public VBox crearVista (){
+
+        txtBuscar.setPromptText("Buscar paciente...");
 
         TableColumn<Paciente, Integer> colId = new TableColumn<>("ID");
 
@@ -69,8 +73,7 @@ public class PacienteView {
                 btnActualizar,
                 btnEliminar,
                 btnPDF,
-
-                new Label("Buscar Paciente"),
+                btnExcel,
                 txtBuscar,
 
                 table
