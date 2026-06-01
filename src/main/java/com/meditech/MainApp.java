@@ -1,5 +1,4 @@
 package com.meditech;
-
 import com.meditech.view.*;
 import com.meditech.controller.* ;
 import com.meditech.model.Usuario;

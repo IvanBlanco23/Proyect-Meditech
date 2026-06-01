@@ -12,8 +12,8 @@ public class ConsultaDAO {
 
     public void guardar(Consulta consulta) {
 
-        String sql= """
-                INSERT INTO Consulta(
+        String sql = """
+                INSERT INTO consultas (
                     expediente_id,
                     doctor_id,
                     diagnostico,
@@ -21,86 +21,56 @@ public class ConsultaDAO {
                     observaciones,
                     fecha
                 )
-                VALUES(?,?,?,?,?,?)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """;
 
         try (
-                Connection conn =
-                        SQLServerConnection
-                                .connect();
-
-                PreparedStatement stmt =
-                        conn.prepareStatement(sql)
-        ){
-          stmt.setInt(1, consulta.getExpedienteId());
-
-            stmt.setInt(2, consulta.getDoctorId()
-            );
-
-            stmt.setString(3, consulta.getDiagnostico()
-            );
-
-            stmt.setString(4, consulta.getTratamiento()
-            );
-
-            stmt.setString(5, consulta.getObservaciones()
-            );
-
-            stmt.setString(6, consulta.getFecha()
-            );
-
+            Connection conn = PostgreSQLConnection.connect();
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setInt(1, consulta.getExpedienteId());
+            stmt.setInt(2, consulta.getDoctorId());
+            stmt.setString(3, consulta.getDiagnostico());
+            stmt.setString(4, consulta.getTratamiento());
+            stmt.setString(5, consulta.getObservaciones());
+            stmt.setString(6, consulta.getFecha());
             stmt.executeUpdate();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public List<Consulta> listarPorExpediente(int expedienteId){
+    public List<Consulta> listarPorExpediente(int expedienteId) {
 
         List<Consulta> lista = new ArrayList<>();
 
-        String sql="""
-                SELECT c.*,
-                u.nombre AS doctorNombre
-                
-                FROM Consulta c
-                INNER JOIN Usuario u
-                ON c.doctor_id=u.idUsuario
-                WHERE expediente_id=?
-                
-                ORDER BY fecha DESC;
-        """;
+        String sql = """
+                SELECT c.*, u.nombre AS doctorNombre
+                FROM consultas c
+                INNER JOIN usuarios u ON c.doctor_id = u.id_usuario
+                WHERE c.expediente_id = ?
+                ORDER BY c.fecha DESC
+                """;
 
         try (
-                Connection conn =
-                        SQLServerConnection
-                                .connect();
-
-                PreparedStatement stmt =
-                        conn.prepareStatement(sql)
-        ){
+            Connection conn = PostgreSQLConnection.connect();
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
             stmt.setInt(1, expedienteId);
+            ResultSet rs = stmt.executeQuery();
 
-            ResultSet rs= stmt.executeQuery();
-
-            while (rs.next()){
-
-                Consulta consulta= new Consulta();
-
-                consulta.setIdConsulta(rs.getInt("idCOnsulta"));
-
+            while (rs.next()) {
+                Consulta consulta = new Consulta();
+                consulta.setIdConsulta(rs.getInt("id_consulta"));
                 consulta.setDiagnostico(rs.getString("diagnostico"));
-
                 consulta.setTratamiento(rs.getString("tratamiento"));
-
                 consulta.setObservaciones(rs.getString("observaciones"));
-
                 consulta.setFecha(rs.getString("fecha"));
-
                 lista.add(consulta);
             }
-        }catch (Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return lista;
